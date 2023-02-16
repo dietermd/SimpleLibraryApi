@@ -1,9 +1,9 @@
-﻿using MediatR;
+﻿using SimpleLibraryApi.Abstractions;
 using SimpleLibraryApi.Endpoints.BookBorrowEndpoint.Responses;
 
 namespace SimpleLibraryApi.Endpoints.BookBorrowEndpoint.Queries
 {
-    public class GetAllBookBorrowsQuerie : IRequest<List<GetBookBorrowResponse>>
+    public class GetAllBookBorrowsQuerie : IQuery<List<GetBookBorrowResponse>>
     {
         public int? Limit { get; set; }
     }

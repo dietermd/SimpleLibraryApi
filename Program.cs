@@ -1,10 +1,11 @@
-using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using SimpleLibraryApi.Endpoints.AuthorEndpoint;
 using SimpleLibraryApi.Endpoints.BookBorrowEndpoint;
 using SimpleLibraryApi.Endpoints.BookEndpoint;
 using SimpleLibraryApi.Endpoints.UserEndpoint;
 using SimpleLibraryApi.Models.Context;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApiDbContext>(options => options.UseInMemoryDatabase("InMemory"));
 
 // Mediatr
-builder.Services.AddMediatR(typeof(Program));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
 var app = builder.Build();
 
