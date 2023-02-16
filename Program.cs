@@ -1,11 +1,9 @@
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using SimpleLibraryApi.Endpoints.AuthorEndpoint;
 using SimpleLibraryApi.Endpoints.BookBorrowEndpoint;
 using SimpleLibraryApi.Endpoints.BookEndpoint;
 using SimpleLibraryApi.Endpoints.UserEndpoint;
 using SimpleLibraryApi.Models.Context;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
