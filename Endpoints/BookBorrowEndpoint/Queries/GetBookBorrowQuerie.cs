@@ -1,4 +1,4 @@
-﻿using SimpleLibraryApi.Abstractions;
+﻿using SimpleLibraryApi.Application.Abstractions;
 using SimpleLibraryApi.Endpoints.BookBorrowEndpoint.Responses;
 
 namespace SimpleLibraryApi.Endpoints.BookBorrowEndpoint.Queries

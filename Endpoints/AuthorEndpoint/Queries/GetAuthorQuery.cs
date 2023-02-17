@@ -1,4 +1,4 @@
-﻿using SimpleLibraryApi.Abstractions;
+﻿using SimpleLibraryApi.Application.Abstractions;
 using SimpleLibraryApi.Endpoints.AuthorEndpoint.Responses;
 
 namespace SimpleLibraryApi.Endpoints.AuthorEndpoint.Queries
