@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using ApplicationException = SimpleLibraryApi.Application.Exceptions.ApplicationException;
+using ValidationException = SimpleLibraryApi.Application.Exceptions.ValidationException;
 using SimpleLibraryApi.Endpoints.UserEndpoin.Responses;
 using SimpleLibraryApi.Endpoints.UserEndpoint.Commands;
 using SimpleLibraryApi.Models;
@@ -18,9 +18,6 @@ namespace SimpleLibraryApi.Endpoints.UserEndpoint.Handlers
         public async Task<GetUserResponse> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
             _dbContext.Database.EnsureCreated();
-            
-            bool alreadyExists = _dbContext.User.Any(x => x.Email == command.Email);
-            if (alreadyExists) throw new ApplicationException("", "User already exists");
 
             var user = new User { Email = command.Email, Password = command.Password };
 
