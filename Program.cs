@@ -1,4 +1,3 @@
-using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using SimpleLibraryApi.Application.Behaviors;
 using SimpleLibraryApi.Application.Middlewares;
@@ -6,7 +5,6 @@ using SimpleLibraryApi.Endpoints.AuthorEndpoint;
 using SimpleLibraryApi.Endpoints.BookBorrowEndpoint;
 using SimpleLibraryApi.Endpoints.BookEndpoint;
 using SimpleLibraryApi.Endpoints.UserEndpoint;
-using SimpleLibraryApi.Endpoints.UserEndpoint.Commands;
 using SimpleLibraryApi.Endpoints.UserEndpoint.Commands.Validators;
 using SimpleLibraryApi.Models.Context;
 
@@ -27,7 +25,7 @@ builder.Services.AddMediatR(cfg => {
 });
 
 // FluentValidation
-builder.Services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
+builder.AddUserCommandValidators();
 
 // Middleware
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();

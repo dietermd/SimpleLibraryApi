@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using ValidationException = SimpleLibraryApi.Application.Exceptions.ValidationException;
 using SimpleLibraryApi.Endpoints.UserEndpoin.Responses;
 using SimpleLibraryApi.Endpoints.UserEndpoint.Commands;
 using SimpleLibraryApi.Models;

@@ -21,10 +21,16 @@ namespace SimpleLibraryApi.Endpoints.UserEndpoint
             })
             .WithName("GetUserById");
 
-            app.MapPost("/users", async (IMediator mediator, CreateUserCommand createUserCommand, CancellationToken cancellationToken) =>
+            app.MapPost("/users", async (CreateUserCommand createUserCommand, IMediator mediator, CancellationToken cancellationToken) =>
             {
                 var result = await mediator.Send(createUserCommand, cancellationToken);
                 return Results.CreatedAtRoute("GetUserById", new { result.UserId }, result);
+            });
+
+            app.MapPut("/users/{userId}", async (Guid userId, CreateUserCommand createUserCommand, IMediator mediator, CancellationToken cancellationToken) =>
+            {
+                var response = await mediator.Send(new UpdateUserCommand(userId, createUserCommand.Email, createUserCommand.Password), cancellationToken);
+                return response is null ? Results.NotFound() : Results.Ok(response);
             });
 
             return app;
