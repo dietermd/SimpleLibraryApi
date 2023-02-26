@@ -3,6 +3,7 @@ using SimpleLibraryApi.Application.Behaviors;
 using SimpleLibraryApi.Application.Middlewares;
 using SimpleLibraryApi.Endpoints.AuthorEndpoint;
 using SimpleLibraryApi.Endpoints.BookBorrowEndpoint;
+using SimpleLibraryApi.Endpoints.BookBorrowEndpoint.Commands.Validators;
 using SimpleLibraryApi.Endpoints.BookEndpoint;
 using SimpleLibraryApi.Endpoints.UserEndpoint;
 using SimpleLibraryApi.Endpoints.UserEndpoint.Commands.Validators;
@@ -25,7 +26,8 @@ builder.Services.AddMediatR(cfg => {
 });
 
 // FluentValidation
-builder.AddUserCommandValidators();
+builder.AddUserCommandValidators()
+    .AddBookBorrowCommandValidators();
 
 // Middleware
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();

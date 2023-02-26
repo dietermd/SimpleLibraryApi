@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SimpleLibraryApi.Endpoints.BookBorrowEndpoint.Commands;
 using SimpleLibraryApi.Endpoints.BookBorrowEndpoint.Queries;
 
 namespace SimpleLibraryApi.Endpoints.BookBorrowEndpoint
@@ -17,6 +18,13 @@ namespace SimpleLibraryApi.Endpoints.BookBorrowEndpoint
             {
                 var response = await mediator.Send(new GetBookBorrowQuerie { BookBorrowId = bookBorrowId}, cancellationToken);
                 return response is null ? Results.NotFound() : Results.Ok(response);
+            })
+            .WithName("CreateBookBorrowById");
+
+            app.MapPost("/BookBorrows", async (CreateBookBorrowCommand createBookBorrowCommand, IMediator mediator, CancellationToken cancellationToken) =>
+            {
+                var result = await mediator.Send(createBookBorrowCommand, cancellationToken);
+                return Results.CreatedAtRoute("CreateBookBorrowById", new { result.BookBorrowId }, result);
             });
 
             return app;
