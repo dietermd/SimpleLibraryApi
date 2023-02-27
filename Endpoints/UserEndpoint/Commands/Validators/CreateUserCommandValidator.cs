@@ -19,7 +19,6 @@ namespace SimpleLibraryApi.Endpoints.UserEndpoint.Commands.Validators
 
         private bool EmailMustBeUnique(string email)
         {
-            _dbContext.Database.EnsureCreated();
             return !_dbContext.User.Any(x => x.Email == email);
         }
 

@@ -8,6 +8,7 @@ using SimpleLibraryApi.Endpoints.BookEndpoint;
 using SimpleLibraryApi.Endpoints.UserEndpoint;
 using SimpleLibraryApi.Endpoints.UserEndpoint.Commands.Validators;
 using SimpleLibraryApi.Models.Context;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    // Create In-Memmory database
+    using (var scope = app.Services.CreateScope())
+    {
+        scope.ServiceProvider.GetRequiredService<ApiDbContext>().Database.EnsureCreated();
+    }
 }
 
 // Middleware

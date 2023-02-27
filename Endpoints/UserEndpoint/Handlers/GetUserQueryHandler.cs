@@ -16,7 +16,6 @@ namespace SimpleLibraryApi.Endpoints.UserEndpoint.Handlers
 
         public async Task<GetUserResponse?> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            _dbContext.Database.EnsureCreated();
             return await _dbContext.User.Include(x => x.BookBorow).Where(x => x.UserId == request.UserId)
                 .Select(x => new GetUserResponse
                 {

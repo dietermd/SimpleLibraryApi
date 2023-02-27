@@ -10,7 +10,6 @@ namespace SimpleLibraryApi.Endpoints.BookBorrowEndpoint.Commands.Validators
         public CreateBookBorrowCommandValidator(ApiDbContext dbContext)
         {
             _dbContext = dbContext;
-            _dbContext.Database.EnsureCreated();
 
             RuleFor(x => x.UserId).NotEmpty();
             RuleFor(x => x.UserId).Must(UserMustExist).WithMessage("Invalid user.");

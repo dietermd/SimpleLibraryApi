@@ -16,8 +16,6 @@ namespace SimpleLibraryApi.Endpoints.UserEndpoint.Handlers
         }
         public async Task<GetUserResponse> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
-            _dbContext.Database.EnsureCreated();
-
             var user = new User { Email = command.Email, Password = command.Password };
 
             await _dbContext.User.AddAsync(user, cancellationToken);

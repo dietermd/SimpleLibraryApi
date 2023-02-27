@@ -17,7 +17,6 @@ namespace SimpleLibraryApi.Endpoints.BookBorrowEndpoint.Handlers
 
         public async Task<List<GetBookBorrowResponse>> Handle(GetAllBookBorrowsQuerie request, CancellationToken cancellationToken)
         {
-            _dbContext.Database.EnsureCreated();
             var bookBorrows = request.Limit.HasValue ? _dbContext.BookBorrow.Take(request.Limit.Value) : _dbContext.BookBorrow;
 
             return await bookBorrows

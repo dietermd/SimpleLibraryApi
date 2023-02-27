@@ -18,8 +18,6 @@ namespace SimpleLibraryApi.Endpoints.BookBorrowEndpoint.Handlers
 
         public async Task<GetBookBorrowResponse> Handle(CreateBookBorrowCommand request, CancellationToken cancellationToken)
         {
-            _dbContext.Database.EnsureCreated();
-
             var book = await _dbContext.Book.FirstAsync(x => x.BookId == request.BookId, cancellationToken);
             book.Copies -= 1;
             _dbContext.Book.Update(book);

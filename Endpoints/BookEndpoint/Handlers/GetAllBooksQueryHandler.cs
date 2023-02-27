@@ -16,8 +16,6 @@ namespace SimpleLibraryApi.Endpoints.BookEndpoint.Handlers
 
         public async Task<List<GetBookResponse>> Handle(GetAllABooksQuery request, CancellationToken cancellationToken)
         {
-            _dbContext.Database.EnsureCreated();
-
             var books = request.Limit.HasValue ? _dbContext.Book.Include(x => x.BookAuthor).Include(x => x.BookBorrow).Take(request.Limit.Value) : _dbContext.Book.Include(x => x.BookAuthor).Include(x => x.BookBorrow);
 
             return await books

@@ -17,7 +17,6 @@ namespace SimpleLibraryApi.Endpoints.AuthorEndpoint.Handlers
 
         public async Task<GetAuthorResponse?> Handle(GetAuthorQuery request, CancellationToken cancellationToken)
         {
-            _dbContext.Database.EnsureCreated();
             return await _dbContext.Author.Include(x => x.BookAuthor).Where(x => x.AuthorId == request.AuthorId)
                 .Select(x =>
                 new GetAuthorResponse

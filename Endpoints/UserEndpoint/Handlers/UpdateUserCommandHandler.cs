@@ -16,8 +16,6 @@ namespace SimpleLibraryApi.Endpoints.UserEndpoint.Handlers
         }
         public async Task<GetUserResponse?> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
         {
-            _dbContext.Database.EnsureCreated();
-
             var user = await _dbContext.User.Include(x => x.BookBorow).FirstOrDefaultAsync(x => x.UserId == command.UserId, cancellationToken);
             if (user is null)
                 return null;

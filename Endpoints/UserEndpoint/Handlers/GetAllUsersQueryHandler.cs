@@ -16,7 +16,6 @@ namespace SimpleLibraryApi.Endpoints.UserEndpoint.Handlers
 
         public async Task<List<GetUserResponse>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
-            _dbContext.Database.EnsureCreated();
             var users = request.Limit.HasValue ? _dbContext.User.Include(x => x.BookBorow).Take(request.Limit.Value) : _dbContext.User.Include(x => x.BookBorow);
 
             return await users
