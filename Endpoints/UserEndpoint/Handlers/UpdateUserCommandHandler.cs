@@ -17,14 +17,14 @@ namespace SimpleLibraryApi.Endpoints.UserEndpoint.Handlers
         public async Task<GetUserResponse?> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
         {
             var user = await _dbContext.User.Include(x => x.BookBorow).FirstOrDefaultAsync(x => x.UserId == command.UserId, cancellationToken);
+            
             if (user is null)
                 return null;
 
             user.Email = command.Email;
             user.Password = command.Password;
 
-            _dbContext.Update(user);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             return new GetUserResponse
             {

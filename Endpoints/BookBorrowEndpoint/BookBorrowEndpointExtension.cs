@@ -8,23 +8,29 @@ namespace SimpleLibraryApi.Endpoints.BookBorrowEndpoint
     {
         public static WebApplication MapBookBorrowEnpoints(this WebApplication app)
         {
-            app.MapGet("/BookBorrows", async (int? limit, IMediator mediator, CancellationToken cancellationToken) =>
+            app.MapGet("/bookBorrows", async (int? limit, IMediator mediator, CancellationToken cancellationToken) =>
             {
                 var response = await mediator.Send(new GetAllBookBorrowsQuerie {  Limit = limit }, cancellationToken);
                 return Results.Ok(response);
             });
 
-            app.MapGet("/BookBorrows/{bookBorrowId}", async (Guid bookBorrowId, IMediator mediator, CancellationToken cancellationToken) =>
+            app.MapGet("/bookBorrows/{bookBorrowId}", async (Guid bookBorrowId, IMediator mediator, CancellationToken cancellationToken) =>
             {
                 var response = await mediator.Send(new GetBookBorrowQuerie { BookBorrowId = bookBorrowId}, cancellationToken);
                 return response is null ? Results.NotFound() : Results.Ok(response);
             })
             .WithName("CreateBookBorrowById");
 
-            app.MapPost("/BookBorrows", async (CreateBookBorrowCommand createBookBorrowCommand, IMediator mediator, CancellationToken cancellationToken) =>
+            app.MapPost("/bookBorrows", async (CreateBookBorrowCommand createBookBorrowCommand, IMediator mediator, CancellationToken cancellationToken) =>
             {
                 var result = await mediator.Send(createBookBorrowCommand, cancellationToken);
                 return Results.CreatedAtRoute("CreateBookBorrowById", new { result.BookBorrowId }, result);
+            });
+
+            app.MapPut("/bookBorrows/{bookBorrowId}", async (Guid bookBorrowId, CreateBookBorrowCommand createBookBorrowCommand, IMediator mediator, CancellationToken cancellationToken) =>
+            {
+                var response = await mediator.Send(new UpdateBookBorrowCommand(bookBorrowId, createBookBorrowCommand.UserId, createBookBorrowCommand.BookId), cancellationToken);
+                return response is null ? Results.NotFound() : Results.Ok(response);
             });
 
             return app;

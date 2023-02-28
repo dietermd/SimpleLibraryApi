@@ -20,13 +20,12 @@ namespace SimpleLibraryApi.Endpoints.BookBorrowEndpoint.Handlers
         {
             var book = await _dbContext.Book.FirstAsync(x => x.BookId == request.BookId, cancellationToken);
             book.Copies -= 1;
-            _dbContext.Book.Update(book);
 
             var bookBorrow = new BookBorrow
             {
                 UserId = request.UserId,
                 BookId = request.BookId,
-                BorrowDate = DateTime.UtcNow,
+                BorrowDate = DateTime.Now,
             };
 
             await _dbContext.BookBorrow.AddAsync(bookBorrow, cancellationToken);
