@@ -28,7 +28,7 @@ namespace SimpleLibraryApi.Endpoints.UserEndpoint.Handlers
                 throw new ApplicationException("Unable to delete user", "The user has one or more book to be returned.");
 
             _dbContext.User.Remove(user);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             return true;
         }

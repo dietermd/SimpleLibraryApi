@@ -33,6 +33,12 @@ namespace SimpleLibraryApi.Endpoints.BookBorrowEndpoint
                 return response is null ? Results.NotFound() : Results.Ok(response);
             });
 
+            app.MapDelete("/bookBorrows/{bookBorrowId}", async (Guid bookBorrowId, IMediator mediator, CancellationToken cancellationToken) =>
+            {
+                var deleted = await mediator.Send(new DeleteBookBorrowCommand(bookBorrowId), cancellationToken);
+                return deleted ? Results.NoContent() : Results.NotFound();
+            });
+
             return app;
         }
     }
