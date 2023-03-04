@@ -27,9 +27,9 @@ namespace SimpleLibraryApi.Endpoints.BookBorrowEndpoint
                 return Results.CreatedAtRoute("CreateBookBorrowById", new { result.BookBorrowId }, result);
             });
 
-            app.MapPut("/bookBorrows/{bookBorrowId}", async (Guid bookBorrowId, CreateBookBorrowCommand createBookBorrowCommand, IMediator mediator, CancellationToken cancellationToken) =>
+            app.MapPut("/bookBorrows/{bookBorrowId}", async (Guid bookBorrowId, IMediator mediator, CancellationToken cancellationToken) =>
             {
-                var response = await mediator.Send(new UpdateBookBorrowCommand(bookBorrowId, createBookBorrowCommand.UserId, createBookBorrowCommand.BookId), cancellationToken);
+                var response = await mediator.Send(new UpdateBookBorrowCommand(bookBorrowId), cancellationToken);
                 return response is null ? Results.NotFound() : Results.Ok(response);
             });
 

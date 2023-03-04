@@ -3,5 +3,5 @@ using SimpleLibraryApi.Endpoints.BookBorrowEndpoint.Responses;
 
 namespace SimpleLibraryApi.Endpoints.BookBorrowEndpoint.Commands
 {
-    public record UpdateBookBorrowCommand(Guid BookBorrowId, Guid UserId, Guid BookId) : ICommand<GetBookBorrowResponse?> { }
+    public record UpdateBookBorrowCommand(Guid BookBorrowId) : ICommand<GetBookBorrowResponse?> { }
 }

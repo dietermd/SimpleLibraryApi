@@ -23,16 +23,8 @@ namespace SimpleLibraryApi.Endpoints.BookBorrowEndpoint.Handlers
             if (bookBorrow is null)
                 return null;
 
-            if (bookBorrow.BookId != request.BookId)
-            {
-                var oldBook = bookBorrow.Book;
-                oldBook.Copies += 1;
-                var newBook = await _dbContext.Book.FirstAsync(x => x.BookId == request.BookId);
-                newBook.Copies -= 1;
-                bookBorrow.BookId = newBook.BookId;
-            }
-
-            bookBorrow.UserId = request.UserId;
+            bookBorrow.ReturnDate = DateTime.Now;
+            bookBorrow.Book.Copies += 1;
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
