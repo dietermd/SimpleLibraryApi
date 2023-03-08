@@ -2,13 +2,13 @@ using Microsoft.EntityFrameworkCore;
 using SimpleLibraryApi.Application.Behaviors;
 using SimpleLibraryApi.Application.Middlewares;
 using SimpleLibraryApi.Endpoints.AuthorEndpoint;
+using SimpleLibraryApi.Endpoints.AuthorEndpoint.Commands.Validators;
 using SimpleLibraryApi.Endpoints.BookBorrowEndpoint;
 using SimpleLibraryApi.Endpoints.BookBorrowEndpoint.Commands.Validators;
 using SimpleLibraryApi.Endpoints.BookEndpoint;
 using SimpleLibraryApi.Endpoints.UserEndpoint;
 using SimpleLibraryApi.Endpoints.UserEndpoint.Commands.Validators;
 using SimpleLibraryApi.Models.Context;
-using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +28,8 @@ builder.Services.AddMediatR(cfg => {
 
 // FluentValidation
 builder.AddUserCommandValidators()
-    .AddBookBorrowCommandValidators();
+    .AddBookBorrowCommandValidators()
+    .AddAuthorCommandValidatorExtension();
 
 // Middleware
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SimpleLibraryApi.Endpoints.AuthorEndpoint.Commands;
 using SimpleLibraryApi.Endpoints.AuthorEndpoint.Queries;
 
 namespace SimpleLibraryApi.Endpoints.AuthorEndpoint
@@ -17,6 +18,13 @@ namespace SimpleLibraryApi.Endpoints.AuthorEndpoint
             {
                 var response = await mediator.Send(new GetAuthorQuery { AuthorId = authorId }, cancellationToken);
                 return response is null ? Results.NotFound() : Results.Ok(response);
+            })
+            .WithName("CreateAuthorById");
+
+            app.MapPost("/authors", async (CreateAuthorCommand createAuthorCommand, IMediator mediator, CancellationToken cancellationToken) =>
+            {
+                var result = await mediator.Send(createAuthorCommand, cancellationToken);
+                return Results.CreatedAtRoute("CreateAuthorById",  new { result.AuthorId }, result);
             });
 
             return app;

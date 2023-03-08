@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Endpoints\AuthorEndpoint\Commands\" />
     <Folder Include="Endpoints\BookEndpoint\Commands\" />
   </ItemGroup>
 
