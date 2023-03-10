@@ -6,7 +6,8 @@ namespace SimpleLibraryApi.Endpoints.AuthorEndpoint.Commands.Validators
     {
         public static WebApplicationBuilder AddAuthorCommandValidatorExtension(this WebApplicationBuilder builder)
         {
-            builder.Services.AddScoped<IValidator<CreateAuthorCommand>, CreateAuthorCommandValidator>();
+            builder.Services.AddScoped<IValidator<CreateAuthorCommand>, CreateAuthorCommandValidator>()
+                .AddScoped<IValidator<UpdateAuthorCommand>, UpdateAuthorCommandValidator>();
 
             return builder;
         }

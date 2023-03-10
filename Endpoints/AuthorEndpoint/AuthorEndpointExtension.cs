@@ -27,6 +27,12 @@ namespace SimpleLibraryApi.Endpoints.AuthorEndpoint
                 return Results.CreatedAtRoute("CreateAuthorById",  new { result.AuthorId }, result);
             });
 
+            app.MapPut("/authors/{authorId}", async (Guid authorId, CreateAuthorCommand createAuthorCommand, IMediator mediator, CancellationToken cancellationToken) =>
+            {
+                var response = await mediator.Send(new UpdateAuthorCommand(authorId, createAuthorCommand.Name, createAuthorCommand.Country), cancellationToken);
+                return response is null ? Results.NotFound() : Results.Ok(response);
+            });
+
             return app;
         }
     }
