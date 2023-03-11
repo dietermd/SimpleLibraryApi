@@ -33,6 +33,12 @@ namespace SimpleLibraryApi.Endpoints.AuthorEndpoint
                 return response is null ? Results.NotFound() : Results.Ok(response);
             });
 
+            app.MapDelete("/authors/{authorId}", async (Guid authorId, IMediator mediator, CancellationToken cancellationToken) =>
+            {
+                var deleted = await mediator.Send(new DeleteAuthorCommand(authorId), cancellationToken);
+                return deleted ? Results.NoContent() : Results.NotFound();
+            });
+
             return app;
         }
     }

@@ -52,7 +52,7 @@ namespace SimpleLibraryApi.Models.Context
                 new BookAuthor { BookId = books[3].BookId, AuthorId = authors[1].AuthorId },
                 new BookAuthor { BookId = books[4].BookId, AuthorId = authors[1].AuthorId },
 
-                new BookAuthor { BookId = books[5].BookId, AuthorId = authors[2].AuthorId },
+                //new BookAuthor { BookId = books[5].BookId, AuthorId = authors[2].AuthorId },
 
                 new BookAuthor { BookId = books[6].BookId, AuthorId = authors[3].AuthorId },
                 new BookAuthor { BookId = books[6].BookId, AuthorId = authors[4].AuthorId },
