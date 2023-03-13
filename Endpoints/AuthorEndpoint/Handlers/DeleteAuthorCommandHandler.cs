@@ -22,9 +22,6 @@ namespace SimpleLibraryApi.Endpoints.AuthorEndpoint.Handlers
             if (author is null)
                 return false;
 
-            if (author.BookAuthor.Any())
-                throw new ApplicationException("Unable to delete author", "First delete all books written by this author");
-
             _dbContext.Author.Remove(author);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return true;
