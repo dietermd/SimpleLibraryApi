@@ -31,13 +31,13 @@ namespace SimpleLibraryApi.Models.Context
 
             var books = new Book[]
             {
-                new Book { Title = "The Catcher in the Rye", Copies = 3 },
-                new Book { Title = "Nine Stories", Copies = 2 },
-                new Book { Title = "Franny and Zooey", Copies = 3 },
-                new Book { Title = "The Great Gatsby", Copies = 4 },
-                new Book { Title = "Tender id the Night", Copies = 3 },
-                new Book { Title = "Pride and Prejudice", Copies = 1},
-                new Book { Title = "Professional ASP.NET 4.5 in C# and VB", Copies = 2 },
+                new Book { Title = "The Catcher in the Rye", ISBN = "9780316769532", Copies = 3 },
+                new Book { Title = "Nine Stories", ISBN = "9780241911464", Copies = 2 },
+                new Book { Title = "Franny and Zooey", ISBN = "9780140237528", Copies = 3 },
+                new Book { Title = "The Great Gatsby", ISBN = "9780743273565", Copies = 4 },
+                new Book { Title = "Tender id the Night", ISBN = "9780370005249", Copies = 3 },
+                new Book { Title = "Pride and Prejudice", ISBN = "9788466810265",  Copies = 1},
+                new Book { Title = "Professional ASP.NET 4.5 in C# and VB", ISBN = "9781118311820", Copies = 2 },
             };
 
             modelBuilder.Entity<Book>().HasData(books);

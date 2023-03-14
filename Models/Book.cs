@@ -11,6 +11,7 @@ namespace SimpleLibraryApi.Models
         }
         public Guid BookId { get; set; } = Guid.NewGuid();
         public string Title { get; set; } = null!;
+        public string ISBN { get; set; } = null!;
         public int Copies { get; set; }
 
         public ICollection<BookAuthor> BookAuthor { get; set; }
