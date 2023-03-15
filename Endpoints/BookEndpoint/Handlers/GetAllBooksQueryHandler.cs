@@ -23,6 +23,7 @@ namespace SimpleLibraryApi.Endpoints.BookEndpoint.Handlers
                 {
                     BookId = x.BookId,
                     Title = x.Title,
+                    ISNB = x.ISBN,
                     Copies = x.Copies,
                     Loaned = x.BookBorrow.Where(y => !y.ReturnDate.HasValue).Count(),
                     Authors = x.BookAuthor.Select(y => y.AuthorId).ToList()
