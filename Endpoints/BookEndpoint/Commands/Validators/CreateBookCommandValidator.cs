@@ -16,7 +16,9 @@ namespace SimpleLibraryApi.Endpoints.BookEndpoint.Commands.Validators
             RuleFor(x => x.ISBN).NotEmpty().MinimumLength(10).MaximumLength(13);
             RuleFor(x => x.ISBN).Must(ISBNMustBeUnique).WithMessage("There is already a book with the same ISBN in the database");
 
-            RuleFor(x => x.Authors).Must(AuthorMustExist).WithMessage("One or more author not found in the database");
+            RuleFor(x => x.Authors).Cascade(CascadeMode.Stop)
+                .Must(AuthorsMustNotHaveDuplicates).WithMessage("Authos must not have duplicates")
+                .Must(AuthorsMustExist).WithMessage("One or more author not found in the database");
 
         }
 
@@ -25,14 +27,17 @@ namespace SimpleLibraryApi.Endpoints.BookEndpoint.Commands.Validators
             return !_dbContext.Book.Any(x => x.ISBN == ISBN);
         }
 
-        private bool AuthorMustExist(List<Guid> authors)
+        private bool AuthorsMustNotHaveDuplicates(List<Guid> authors)
+        {
+            return authors.Count() == authors.Distinct().Count();
+        }
+
+        private bool AuthorsMustExist(List<Guid> authors)
         {
             if (!authors.Any()) return true;
 
-            var distinctAuthors = authors.Distinct().ToArray();
-
             var count = _dbContext.Author.Count(x => authors.Contains(x.AuthorId));
-            return count == distinctAuthors.Length;
+            return count == authors.Count();
         }
     }
 }
