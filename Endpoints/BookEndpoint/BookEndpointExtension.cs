@@ -14,9 +14,9 @@ namespace SimpleLibraryApi.Endpoints.BookEndpoint
                 return Results.Ok(response);
             });
 
-            app.MapGet("/books/{bookId}", async (Guid authorId, IMediator mediator, CancellationToken cancellationToken) =>
+            app.MapGet("/books/{bookId}", async (Guid bookId, IMediator mediator, CancellationToken cancellationToken) =>
             {
-                var response = await mediator.Send(new GetBookQuery { BookId = authorId }, cancellationToken);
+                var response = await mediator.Send(new GetBookQuery { BookId = bookId }, cancellationToken);
                 return response is null ? Results.NotFound() : Results.Ok(response);
             })
             .WithName("GetBookById");
@@ -25,6 +25,12 @@ namespace SimpleLibraryApi.Endpoints.BookEndpoint
             {
                 var result = await mediator.Send(createBookCommand, cancellationToken);
                 return Results.CreatedAtRoute("GetBookById", new { result.BookId }, result);
+            });
+
+            app.MapPut("/books/{bookId}", async (Guid bookId, UpdateBookCommand updateBookCommand, IMediator mediator, CancellationToken cancellationToken) =>
+            {
+                var result = await mediator.Send(updateBookCommand, cancellationToken);
+                return result is null ? Results.NotFound() : Results.Ok(result);
             });
 
             return app;

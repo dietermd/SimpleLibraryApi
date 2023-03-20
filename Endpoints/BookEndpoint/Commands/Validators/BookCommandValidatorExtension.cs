@@ -6,7 +6,8 @@ namespace SimpleLibraryApi.Endpoints.BookEndpoint.Commands.Validators
     {
         public static WebApplicationBuilder AddBookCommandValidators(this WebApplicationBuilder builder)
         {
-            builder.Services.AddScoped<IValidator<CreateBookCommand>, CreateBookCommandValidator>();
+            builder.Services.AddScoped<IValidator<CreateBookCommand>, CreateBookCommandValidator>()
+                .AddScoped<IValidator<UpdateBookCommand>, UpdateBookCommandValidator>();
 
             return builder;
         }
