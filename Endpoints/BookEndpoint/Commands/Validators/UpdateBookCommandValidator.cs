@@ -45,7 +45,7 @@ namespace SimpleLibraryApi.Endpoints.BookEndpoint.Commands.Validators
 
         private bool CopiesMustBeGreaterOrEqualThanLoaned(Guid bookId, int copies)
         {
-            var loanedQnt = _dbContext.Book.Include(x => x.BookBorrow).Where(x => x.BookId == bookId).Select(x => x.BookBorrow).Count();
+            var loanedQnt = _dbContext.Book.Include(x => x.BookBorrow).Where(x => x.BookId == bookId).Select(x => x.BookBorrow.Count()).First();
             return copies >= loanedQnt;
         }
     }

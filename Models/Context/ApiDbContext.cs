@@ -63,22 +63,22 @@ namespace SimpleLibraryApi.Models.Context
 
             modelBuilder.Entity<BookAuthor>().HasData(bookAuthors);
 
-            var user = new User
+            var users = new User[]
             {
-                Email = "bob@simplelibrary.com",
-                Password = "password"
+                new User { Email = "bob@simplelibrary.com", Password = "password" },
+                new User { Email = "ana@simplelibrary.com", Password = "password" }
             };
 
-            modelBuilder.Entity<User>().HasData(user);
+            modelBuilder.Entity<User>().HasData(users);
 
-            var bookBorrow = new BookBorrow
+            var bookBorrows = new BookBorrow[]
             {
-                BorrowDate = DateTime.Now,
-                UserId = user.UserId,
-                BookId = books[0].BookId,
+                new BookBorrow { BorrowDate = DateTime.Now, UserId = users[0].UserId, BookId = books[0].BookId, },
+                new BookBorrow { BorrowDate = DateTime.Now, UserId = users[1].UserId, BookId = books[0].BookId, },
+
             };
 
-            modelBuilder.Entity<BookBorrow>().HasData(bookBorrow);
+            modelBuilder.Entity<BookBorrow>().HasData(bookBorrows);
         }
 
         public DbSet<Book> Book { get; set; } = null!;
