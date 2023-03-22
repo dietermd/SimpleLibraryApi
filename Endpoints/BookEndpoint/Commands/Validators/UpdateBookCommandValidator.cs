@@ -27,7 +27,7 @@ namespace SimpleLibraryApi.Endpoints.BookEndpoint.Commands.Validators
 
         private bool ISBNMustBeUnique(Guid bookId, string ISBN)
         {
-            return !_dbContext.Book.Any(x => x.BookId == bookId && x.ISBN == ISBN);
+            return !_dbContext.Book.Any(x => x.BookId != bookId && x.ISBN == ISBN);
         }
 
         private bool AuthorsMustNotHaveDuplicates(List<Guid> authors)

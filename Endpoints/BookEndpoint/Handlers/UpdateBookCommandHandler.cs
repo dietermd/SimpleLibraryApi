@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SimpleLibraryApi.Endpoints.BookEndpoint.Commands;
 using SimpleLibraryApi.Endpoints.BookEndpoint.Responses;
+using SimpleLibraryApi.Models;
 using SimpleLibraryApi.Models.Context;
 
 namespace SimpleLibraryApi.Endpoints.BookEndpoint.Handlers
@@ -25,7 +26,20 @@ namespace SimpleLibraryApi.Endpoints.BookEndpoint.Handlers
             book.Title = request.Title;
             book.ISBN = request.ISBN;
             book.Copies = request.Copies;
+
             //authors logic here
+            var removedAuthors = book.BookAuthor.Where(x => !request.Authors.Contains(x.AuthorId));
+            _dbContext.BookAuthor.RemoveRange(removedAuthors);
+            request.Authors.RemoveAll(x => book.BookAuthor.Select(y => y.AuthorId).Contains(x));
+            
+            foreach (var authorId in request.Authors)
+            {
+                book.BookAuthor.Add(new BookAuthor
+                {
+                    AuthorId = authorId,
+                    BookId = book.BookId,
+                });
+            }
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
