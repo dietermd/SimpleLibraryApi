@@ -10,12 +10,17 @@ using SimpleLibraryApi.Endpoints.BookBorrowEndpoint;
 using SimpleLibraryApi.Endpoints.BookBorrowEndpoint.Commands.Validators;
 using SimpleLibraryApi.Endpoints.BookEndpoint;
 using SimpleLibraryApi.Endpoints.BookEndpoint.Commands.Validators;
+using SimpleLibraryApi.Endpoints.TokenEndpoint;
 using SimpleLibraryApi.Endpoints.UserEndpoint;
 using SimpleLibraryApi.Endpoints.UserEndpoint.Commands.Validators;
 using SimpleLibraryApi.Models.Context;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
 
 // Add JWT configuration
 builder.Services.AddAuthentication(o =>
@@ -38,9 +43,6 @@ builder.Services.AddAuthentication(o =>
 });
 
 builder.Services.AddAuthorization();
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
 
 var securityScheme = new OpenApiSecurityScheme()
 {
@@ -113,7 +115,8 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 
 // Endpoint mapping.
-app.MapUserEndpoints()
+app.MapTokenEndpoints()
+    .MapUserEndpoints()
     .MapAuthorEndpoints()
     .MapBookEndpoints()
     .MapBookBorrowEnpoints();
