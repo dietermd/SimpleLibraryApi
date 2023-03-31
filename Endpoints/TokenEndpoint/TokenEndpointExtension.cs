@@ -39,12 +39,16 @@ namespace SimpleLibraryApi.Endpoints.TokenEndpoint
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
                 };
 
+                if (user.IsAdmin)
+                    tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Role, "admin"));
+
                 var jwtTokenHandler = new JwtSecurityTokenHandler();
                 var token = jwtTokenHandler.CreateToken(tokenDescriptor);
                 var jwtToken = jwtTokenHandler.WriteToken(token);
 
                 return Results.Ok(jwtToken);
-            });
+
+            }).AllowAnonymous();
 
             return app;
         }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -42,7 +43,14 @@ builder.Services.AddAuthentication(o =>
     };
 });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(o =>
+{
+    o.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+
+    o.AddPolicy("admin_role", p => p.RequireRole("admin"));
+});
 
 var securityScheme = new OpenApiSecurityScheme()
 {

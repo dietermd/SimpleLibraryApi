@@ -66,7 +66,7 @@ namespace SimpleLibraryApi.Models.Context
             var users = new User[]
             {
                 new User { Email = "bob@simplelibrary.com", Password = "password" },
-                new User { Email = "ana@simplelibrary.com", Password = "password" }
+                new User { Email = "ana@simplelibrary.com", Password = "password", IsAdmin = true }
             };
 
             modelBuilder.Entity<User>().HasData(users);
