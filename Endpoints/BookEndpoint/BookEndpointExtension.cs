@@ -25,19 +25,22 @@ namespace SimpleLibraryApi.Endpoints.BookEndpoint
             {
                 var result = await mediator.Send(createBookCommand, cancellationToken);
                 return Results.CreatedAtRoute("GetBookById", new { result.BookId }, result);
-            });
+            })
+            .RequireAuthorization("admin");
 
             app.MapPut("/books/{bookId}", async (Guid bookId, CreateBookCommand createBookCommand, IMediator mediator, CancellationToken cancellationToken) =>
             {
                 var result = await mediator.Send(new UpdateBookCommand(bookId, createBookCommand.Title, createBookCommand.ISBN, createBookCommand.Copies, createBookCommand.Authors), cancellationToken);
                 return result is null ? Results.NotFound() : Results.Ok(result);
-            });
+            })
+            .RequireAuthorization("admin");
 
             app.MapDelete("/books/{bookId}", async (Guid bookId, IMediator mediator, CancellationToken cancellationToken) =>
             {
                 var deleted = await mediator.Send(new DeleteBookCommand(bookId), cancellationToken);
                 return deleted ? Results.Ok() : Results.NotFound();
-            });
+            })
+            .RequireAuthorization("admin");
 
             return app;
         }

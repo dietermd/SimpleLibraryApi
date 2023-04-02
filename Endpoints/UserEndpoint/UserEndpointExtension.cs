@@ -25,19 +25,22 @@ namespace SimpleLibraryApi.Endpoints.UserEndpoint
             {
                 var result = await mediator.Send(createUserCommand, cancellationToken);
                 return Results.CreatedAtRoute("GetUserById", new { result.UserId }, result);
-            });
+            })
+            .RequireAuthorization("admin");
 
             app.MapPut("/users/{userId}", async (Guid userId, CreateUserCommand createUserCommand, IMediator mediator, CancellationToken cancellationToken) =>
             {
                 var response = await mediator.Send(new UpdateUserCommand(userId, createUserCommand.Email, createUserCommand.Password), cancellationToken);
                 return response is null ? Results.NotFound() : Results.Ok(response);
-            });
+            })
+            .RequireAuthorization("admin");
 
             app.MapDelete("/users/{userId}", async (Guid userId, IMediator mediator, CancellationToken cancellationToken) =>
             {
                 var deleted = await mediator.Send(new DeleteUserCommand(userId), cancellationToken);
                 return deleted ? Results.NoContent() : Results.NotFound();
-            });
+            })
+            .RequireAuthorization("admin");
 
             return app;
         }
