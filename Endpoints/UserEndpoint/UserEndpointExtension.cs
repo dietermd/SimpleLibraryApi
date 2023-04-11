@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using SimpleLibraryApi.Endpoints.UserEndpoint.Commands;
 using SimpleLibraryApi.Endpoints.UserEndpoint.Queries;
+using System.Security.Claims;
 
 namespace SimpleLibraryApi.Endpoints.UserEndpoint
 {
@@ -12,35 +13,38 @@ namespace SimpleLibraryApi.Endpoints.UserEndpoint
             {
                 var response = await mediator.Send(new GetAllUsersQuery { Limit = limit }, cancellationToken);
                 return Results.Ok(response);
-            });
+            }).RequireAuthorization();
 
-            app.MapGet("/users/{userId}", async (Guid userId, IMediator mediator, CancellationToken cancellationToken) =>
+            app.MapGet("/users/{userId}", async (Guid userId, IMediator mediator, CancellationToken cancellationToken, ClaimsPrincipal user) =>
             {
+                if (user.Claims.FirstOrDefault(x => x.Type == "Id")?.Value != userId.ToString())
+                    return Results.Forbid();
                 var response = await mediator.Send(new GetUserQuery { UserId = userId }, cancellationToken);
                 return response is null ? Results.NotFound() : Results.Ok(response);
             })
-            .WithName("GetUserById");
+            .WithName("GetUserById")
+            .RequireAuthorization();
 
             app.MapPost("/users", async (CreateUserCommand createUserCommand, IMediator mediator, CancellationToken cancellationToken) =>
             {
                 var result = await mediator.Send(createUserCommand, cancellationToken);
                 return Results.CreatedAtRoute("GetUserById", new { result.UserId }, result);
             })
-            .RequireAuthorization("admin");
+            .RequireAuthorization("admin_role");
 
             app.MapPut("/users/{userId}", async (Guid userId, CreateUserCommand createUserCommand, IMediator mediator, CancellationToken cancellationToken) =>
             {
                 var response = await mediator.Send(new UpdateUserCommand(userId, createUserCommand.Email, createUserCommand.Password), cancellationToken);
                 return response is null ? Results.NotFound() : Results.Ok(response);
             })
-            .RequireAuthorization("admin");
+            .RequireAuthorization("admin_role");
 
             app.MapDelete("/users/{userId}", async (Guid userId, IMediator mediator, CancellationToken cancellationToken) =>
             {
                 var deleted = await mediator.Send(new DeleteUserCommand(userId), cancellationToken);
                 return deleted ? Results.NoContent() : Results.NotFound();
             })
-            .RequireAuthorization("admin");
+            .RequireAuthorization("admin_role");
 
             return app;
         }
