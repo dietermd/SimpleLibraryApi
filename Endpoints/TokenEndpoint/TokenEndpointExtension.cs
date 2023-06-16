@@ -48,7 +48,8 @@ namespace SimpleLibraryApi.Endpoints.TokenEndpoint
 
                 return Results.Ok(jwtToken);
 
-            }).AllowAnonymous();
+            }).AllowAnonymous()
+            .WithTags("Token");
 
             return app;
         }
